@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { ISpriteConstructor } from '../types/sprite'
+import ParticleManager from '../manager/ParticleManager'
 
 class Player extends Phaser.GameObjects.Container
 {
@@ -9,6 +10,7 @@ class Player extends Phaser.GameObjects.Container
     private emitter: Phaser.GameObjects.Particles.ParticleEmitter
     private runSprites: Phaser.GameObjects.Sprite[];
     private flySprites: Phaser.GameObjects.Sprite[];
+    private particleManager: ParticleManager;
 
 	constructor(params: ISpriteConstructor)
 	{
@@ -55,24 +57,11 @@ class Player extends Phaser.GameObjects.Container
         this.flySprites.forEach(sprite => this.add(sprite));
         this.updateSprite();
 
+        this.particleManager = new ParticleManager(this.currentScene, this, 'squareParticle', 'shipParticle');
 
-        //  Our emitter
-        this.emitter = this.currentScene.add.particles(0, 0, 'particle', {
-            lifespan: 2000,
-            speed: { min: 200, max: 400 },
-            angle: { min: 180, max: 200 },
-            gravityY: 500,
-            quantity: 2,
-        })
-        this.emitter.setPosition(-this.width/2, this.height/2)
-        this.add(this.emitter)
-
-        // Thêm container vào physics world
         this.currentScene.physics.world.enable(this)
         
-        // Thiết lập body cho container
         const body = this.body as Phaser.Physics.Arcade.Body
-        // playerContainerBody.setCollideWorldBounds(true)    
         body.setVelocityX(600) 
         this.cursors = this.currentScene.input.keyboard?.createCursorKeys()
     }
@@ -81,9 +70,7 @@ class Player extends Phaser.GameObjects.Container
         if(!this.cursors){return}
         if(this.state === 'square'){
             const body = this.body as Phaser.Physics.Arcade.Body
-
             if((this.cursors.space.isDown || this.cursors.up.isDown) && body.blocked.down){
-                console.log(this.x)
                 body.setVelocityY(-1100)
                 body.setAccelerationY(2000)
 
@@ -132,19 +119,23 @@ class Player extends Phaser.GameObjects.Container
         this.emitter.setAngle(-angle)
     }
     update() {
-        // this.setX(this.currentScene.sys.canvas.width / 4)
         this.handleKeyboard()
         const body = this.body as Phaser.Physics.Arcade.Body
         if(this.state === 'square'){
             if (body.blocked.down) {
-                this.updateEmitterPosition()
-                this.emitter.start()
+                this.particleManager.startSliding();
+                this.particleManager.update();
             } else {
-                this.emitter.stop()
+                this.particleManager.stopSliding();
             }
         }
         else{
-            this.emitter.start()
+            if (this.cursors?.space.isDown || this.cursors?.up.isDown) {
+                this.particleManager.startFlying();
+                this.particleManager.update();
+            } else {
+                this.particleManager.stopFlying();
+            }
         }
     }
 }

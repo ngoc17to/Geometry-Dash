@@ -133,8 +133,8 @@
             "scale": 0.33,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 16.66666666666663,
-                "y": 16.666666666666742
+                "x": 18.181818181818187,
+                "y": 18.18181818181813
             }
         },
         "untitled.tmx#GD_01": {
@@ -158,8 +158,8 @@
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 3199.333333333333,
-                "y": 319.3333333333333
+                "x": 3210.6666666666665,
+                "y": 692
             }
         },
         "untitled_02.tmx#GD_01": {
@@ -180,16 +180,16 @@
                 3,
                 2
             ],
-            "scale": 0.33,
-            "selectedLayer": 1,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 8075.757575757576,
-                "y": 531.8181818181818
+                "x": 26784,
+                "y": 597.5
             }
         },
         "untitled_lv1.tmx#GD_01": {
             "dynamicWrapping": false,
-            "scaleInDock": 0.5
+            "scaleInDock": 0.33
         },
         "untitled_lv1.tmx#GD_lv1": {
             "dynamicWrapping": true,
@@ -197,11 +197,12 @@
         },
         "untitled_lv1.tmx#platformTileset": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "D:/SUN/Geometry-Dash/Geometry-Dash/assets/resource",
-    "last.imagePath": "D:/SUN/Geometry-Dash/Geometry-Dash/assets/images",
+    "last.imagePath": "D:/SUN/Geometry-Dash/Geometry-Dash/assets/images/GJ_GameSheet-hd",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "map.fixedSize": true,
     "map.height": 30,
@@ -229,7 +230,7 @@
         "geometry-dash_tilesheet.tmx",
         "geometry-dash.tsx"
     ],
-    "resizeMap.removeObjects": true,
+    "resizeMap.removeObjects": false,
     "textEdit.monospace": true,
     "tileset.embedInMap": true,
     "tileset.type": 0

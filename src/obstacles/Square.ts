@@ -22,12 +22,16 @@ class Square extends Phaser.GameObjects.Sprite{
     public handleCollisionWithPlayer = (player: Player, sprite: Phaser.Physics.Arcade.Sprite): void => {
         const bodyPlayer = player.body as Phaser.Physics.Arcade.Body;
         const bodySquare = sprite.body as Phaser.Physics.Arcade.Body;
-
-        if (bodyPlayer.touching.down && bodySquare.touching.up) {
-            // Xử lý khi player đứng lên square
-            console.log('aaaaaa')
-        } else {
-            this.currentScene.scene.restart() 
+        if(player.state === 'ship'){
+            if (!(bodyPlayer.touching.down || bodyPlayer.touching.up)) {
+                this.currentScene.scene.restart() 
+            }
+        }
+        else{
+            if (!(bodyPlayer.touching.down && bodySquare.touching.up)) {
+                this.currentScene.scene.restart() 
+                
+            }
         }
     }
 }
