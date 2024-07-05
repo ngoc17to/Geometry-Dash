@@ -11,7 +11,7 @@ import ScoreManager from '../manager/ScoreManager'
 
 class PlayScene extends Phaser.Scene
 {
-    public player!: Player
+    private player!: Player
     private level: number;
     private platforms!: Platform
     private squareObstacles: Phaser.Physics.Arcade.Group
@@ -26,6 +26,8 @@ class PlayScene extends Phaser.Scene
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
     private initialCameraZoom: number
     private scoreManager: ScoreManager
+    private desEmitter: Phaser.GameObjects.Particles.ParticleEmitter
+    public levelMusic: Phaser.Sound.BaseSound
 
 	constructor()
 	{
@@ -43,8 +45,13 @@ class PlayScene extends Phaser.Scene
         this.physics.world.TILE_BIAS = 32
         this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight)
         
-        // const mySound = this.sound.add('level1bmg');
-        // mySound.play();
+        // const playSound = this.sound.add('playSound');
+        // playSound.play();
+
+        // Create and play background music
+        this.levelMusic = this.sound.add('level1bmg', { loop: true });
+        this.levelMusic.play();
+
         this.scoreManager.resetScore()
         this.scene.launch('OverlayScene', { scoreManager: this.scoreManager, level: this.level })
         //============================CREATE OBJECTS=================================
@@ -74,8 +81,8 @@ class PlayScene extends Phaser.Scene
         for (let i = 1; i < 9; i++) {
 			const num = i.toString().padStart(2, '0')
 			this.map.addTilesetImage('GD_lv1', 'square' + num)
-			this.map.addTilesetImage('GD_lv1', 'plank' + num)
         }
+        this.map.addTilesetImage('GD_lv1', 'plank01')
         const squareLayer = this.map.getObjectLayer('squareLayer')
         this.squareObstacles = this.physics.add.group()
         squareLayer?.objects.forEach((obj) => {
@@ -218,6 +225,18 @@ class PlayScene extends Phaser.Scene
 
     //========================================================
         this.cursors = this.input.keyboard?.createCursorKeys()
+
+
+        // Tạo Particle Manager và Emitter
+        this.desEmitter = this.add.particles(this.map.widthInPixels, this.cameras.main.height/2, 'particle', {
+            color: [ 0xc3e98d ],
+            lifespan: 3000,
+            speed: { min: 100, max: 300 },
+            angle: { min: 90, max: 270 },
+            quantity: 1,
+        })
+        this.desEmitter.stop()
+        
     }
 
     private collectCoin(player: Player, coin: Coin): void {
@@ -256,15 +275,10 @@ class PlayScene extends Phaser.Scene
         this.scoreManager.updateScore(score, this.level)
     }
 
+    
+
     update() {
         this.player.update()        
-        if(this.cursors?.down.isDown){
-            if(this.player.state == 'square'){
-                this.player.setState('ship')
-            }
-            else this.player.setState('square')
-            this.player.updateSprite()
-        }
         if(this.player.state === 'ship'){
             const { height } = this.scale;
             const mapHeight = this.map.heightInPixels;
@@ -277,6 +291,9 @@ class PlayScene extends Phaser.Scene
             this.cameras.main.scrollY = this.player.y - 150
         }
         this.updateScore();
+        if(this.scoreManager.getCurrentScore() >= 98){
+            this.desEmitter.start()
+        }
     }
 }
 

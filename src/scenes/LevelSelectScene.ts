@@ -20,7 +20,6 @@ class LevelSelectScene extends Phaser.Scene {
             button.on('pointerdown', () => {
                 this.scene.start('PlayScene', { level: i + 1 })
             });
-
         }
         
     }

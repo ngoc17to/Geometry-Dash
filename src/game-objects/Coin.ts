@@ -1,6 +1,8 @@
+import PlayScene from "../scenes/PlayScene"
+
 class Coin extends Phaser.Physics.Arcade.Sprite {
-    private currentScene: Phaser.Scene
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
+    private currentScene: PlayScene
+    constructor(scene: PlayScene, x: number, y: number, texture: string) {
         super(scene, x, y, texture)
         this.currentScene = scene
 
@@ -32,6 +34,8 @@ class Coin extends Phaser.Physics.Arcade.Sprite {
                 this.destroy()
             }
         })
+        const collectSound = this.currentScene.sound.add('collectCoin');
+        collectSound.play();
     }
 }
 

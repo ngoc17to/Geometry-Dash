@@ -63,6 +63,8 @@ class Player extends Phaser.GameObjects.Container
         
         const body = this.body as Phaser.Physics.Arcade.Body
         body.setVelocityX(600) 
+
+
         this.cursors = this.currentScene.input.keyboard?.createCursorKeys()
     }
 
@@ -70,7 +72,7 @@ class Player extends Phaser.GameObjects.Container
         if(!this.cursors){return}
         if(this.state === 'square'){
             const body = this.body as Phaser.Physics.Arcade.Body
-            if((this.cursors.space.isDown || this.cursors.up.isDown) && body.blocked.down){
+            if((this.cursors.space.isDown || this.cursors.up.isDown || this.currentScene.input.pointer1.isDown) && body.blocked.down){
                 body.setVelocityY(-1100)
                 body.setAccelerationY(2000)
 
@@ -90,7 +92,7 @@ class Player extends Phaser.GameObjects.Container
         }
         else if(this.state === 'ship'){
             const body = this.body as Phaser.Physics.Arcade.Body;
-            if((this.cursors.space.isDown || this.cursors.up.isDown)){
+            if((this.cursors.space.isDown || this.cursors.up.isDown || this.currentScene.input.pointer1.isDown)){
                 body.setVelocityY(-400)
                 this.scene.tweens.add({
                     targets: this,
@@ -98,7 +100,7 @@ class Player extends Phaser.GameObjects.Container
                     duration: 150,
                 });
             }
-            else if((this.cursors.space.isUp || this.cursors.up.isUp)){
+            else if((this.cursors.space.isUp || this.cursors.up.isUp || !this.currentScene.input.pointer1.isDown)){
                 this.scene.tweens.add({
                     targets: this,
                     props: { angle: body.blocked.down ? 0 : 30 },
@@ -107,17 +109,7 @@ class Player extends Phaser.GameObjects.Container
             }
         }
     }
-    private updateEmitterPosition() {
-        const angle = Phaser.Math.RadToDeg(this.rotation)
-        
-        if(angle === -180) {
-            this.emitter.setPosition(this.width / 2, -this.height / 2)
-        }
-        else if(angle === 0){
-            this.emitter.setPosition(-this.width / 2, this.height / 2)
-        }
-        this.emitter.setAngle(-angle)
-    }
+
     update() {
         this.handleKeyboard()
         const body = this.body as Phaser.Physics.Arcade.Body

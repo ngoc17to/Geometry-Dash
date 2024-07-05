@@ -1,9 +1,10 @@
 import Player from "../game-objects/Player";
+import PlayScene from "../scenes/PlayScene";
 
 class Square extends Phaser.GameObjects.Sprite{
-    private currentScene: Phaser.Scene
+    private currentScene: PlayScene
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, flipX: boolean = false, flipY: boolean = false)
+    constructor(scene: PlayScene, x: number, y: number, texture: string, flipX: boolean = false, flipY: boolean = false)
 	{
 		super(scene, x, y, texture)
         this.currentScene = scene
@@ -25,12 +26,13 @@ class Square extends Phaser.GameObjects.Sprite{
         if(player.state === 'ship'){
             if (!(bodyPlayer.touching.down || bodyPlayer.touching.up)) {
                 this.currentScene.scene.restart() 
+                this.currentScene.levelMusic.stop()
             }
         }
         else{
             if (!(bodyPlayer.touching.down && bodySquare.touching.up)) {
                 this.currentScene.scene.restart() 
-                
+                this.currentScene.levelMusic.stop()
             }
         }
     }

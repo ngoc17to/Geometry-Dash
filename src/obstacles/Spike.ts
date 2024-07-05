@@ -1,9 +1,10 @@
 import Player from "../game-objects/Player";
+import PlayScene from "../scenes/PlayScene";
 
 class Spike extends Phaser.GameObjects.Sprite{
-    private currentScene: Phaser.Scene
+    private currentScene: PlayScene
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, flipY: boolean = false)
+    constructor(scene: PlayScene, x: number, y: number, texture: string, flipY: boolean = false)
 	{
 		super(scene, x, y, texture)
         this.currentScene = scene
@@ -22,6 +23,7 @@ class Spike extends Phaser.GameObjects.Sprite{
         const bodyPlayer = player.body as Phaser.Physics.Arcade.Body;
         const bodySquare = sprite.body as Phaser.Physics.Arcade.Body;
 
+        this.currentScene.levelMusic.stop()
         this.currentScene.scene.restart()
 
     }

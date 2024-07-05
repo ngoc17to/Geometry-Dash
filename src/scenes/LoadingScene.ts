@@ -69,6 +69,8 @@ class LoadingScene extends Phaser.Scene {
         this.load.image('bumpGlow', 'assets/images/GJ_GameSheetGlow-hd/gravbump_01_glow_001.png')
         this.load.image('jumpRing', 'assets/images/GJ_GameSheet-hd/gravJumpRing_01_001.png')
         this.load.tilemapTiledJSON('level1', 'assets/resource/GD_level_01.json')
+        this.load.tilemapTiledJSON('level2', 'assets/resource/GD_level_02.json')
+        this.load.tilemapTiledJSON('level3', 'assets/resource/GD_level_03.json')
 
         this.load.image('platform', 'assets/images/groundSquare_01_001-hd.png')
         this.load.image('ground', 'assets/images/GJ_GameSheet02-hd/smartBlock01_001.png')
@@ -80,7 +82,7 @@ class LoadingScene extends Phaser.Scene {
         this.load.image('ship2', 'assets/icons-hd/ship_02/ship_02_001.png')
         this.load.image('ship3', 'assets/icons-hd/ship_02/ship_02_2_001.png')
 
-        this.load.image('particle', 'assets/images/GJ_ParticleSheet-hd/particle_25_001.png')
+        this.load.image('particle', 'assets/images/GJ_ParticleSheet-hd/particle_27_001.png')
         this.load.image('shipParticle', 'assets/images/GJ_ParticleSheet-hd/particle_25_001.png')
         this.load.image('squareParticle', 'assets/images/GJ_ParticleSheet-hd/particle_00_001.png')
 
@@ -94,6 +96,8 @@ class LoadingScene extends Phaser.Scene {
         this.load.image('menuBtn', 'assets/images/GJ_GameSheet03-hd/GJ_menuBtn_001.png')
 
         this.load.audio('level1bmg', 'assets/sounds/StereoMadness.mp3');
+        this.load.audio('collectCoin', 'assets/sounds/gold02.ogg');
+        this.load.audio('playSound', 'assets/sounds/playSound_01.ogg');
 
         this.load.bitmapFont('bigFont', 'assets/images/bigFont-hd.png', 'assets/fonts/bigFont-hd.fnt');
         this.load.on('filecomplete', (fileKey: string, type: string, file: any) => {
