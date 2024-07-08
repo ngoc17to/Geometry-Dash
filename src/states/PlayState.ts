@@ -1,20 +1,35 @@
+import Player from "../game-objects/Player";
+import PlayScene from "../scenes/PlayScene";
 import { State } from "../types/state";
+import StateMachine from "./StateMachine";
 
-class PlayState implements State{
-    private scene: Phaser.Scene;
+class PlayState implements State {
+    public stateMachine: StateMachine;
+    public scene: PlayScene;
 
-    constructor(scene: Phaser.Scene) {
+    constructor() {
+    }
+
+    enter(scene: PlayScene): void {
         this.scene = scene;
-    }
-    update(): void {
-        throw new Error("Method not implemented.");
+                
+        const playSound = scene.sound.add('playSound');
+        playSound.play();
+
+        scene.levelMusic = scene.sound.add('level1bmg', { loop: true });
+        scene.levelMusic.play();
+
+        this.scene.scene.launch('OverlayScene', { currentScene: scene })
     }
 
-    enter(): void {
-        this.scene.scene.start('PlayScene')
+    execute(scene: PlayScene): void {
+
     }
+
 
     exit(): void {
-        this.scene.scene.stop('PlayScene')
+        this.scene.levelMusic.stop();
     }
 }
+
+export default PlayState

@@ -1,19 +1,33 @@
 import { State } from "../types/state"
 
 class StateMachine {
-    private currentState: State
-    private scene: Phaser.Scene
+    private state: string | null
+    private initialState: string
+    private possibleStates: { [state: string]: State }
+    private stateArgs: any[]
 
-    constructor(scene: Phaser.Scene) {
-        this.scene = scene
-    }
-
-    setState(state: State): void {
-        if (this.currentState) {
-            this.currentState.exit()
+    constructor(initialState: string, possibleStates: { [state: string]: State } = {}, stateArgs: any[] = []) {
+        this.initialState = initialState;
+        this.possibleStates = possibleStates;
+        this.stateArgs = stateArgs;
+        this.state = null;
+        
+        for (const state of Object.values(this.possibleStates)) {
+            state.stateMachine = this;
         }
-        this.currentState = state
-        this.currentState.enter()
+    }
+    public step(): void {
+        // On the first step, the state is null and we need to initialize the first state.
+        if (this.state === null) {
+            this.state = this.initialState;
+            this.possibleStates[this.state].enter(...this.stateArgs);
+        }
+        // Run the current state's execute
+        this.possibleStates[this.state].execute(...this.stateArgs);
+    }
+    public transition(newState: string, ...enterArgs: any[]): void {
+        this.state = newState;
+        this.possibleStates[this.state].enter(...this.stateArgs, ...enterArgs);
     }
 }
 

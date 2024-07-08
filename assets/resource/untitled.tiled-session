@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "untitled_lv1.tmx",
+    "activeFile": "untitled_lv2.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
         "."
@@ -193,7 +193,8 @@
         },
         "untitled_lv1.tmx#GD_lv1": {
             "dynamicWrapping": true,
-            "scaleInDock": 0.33
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
         },
         "untitled_lv1.tmx#platformTileset": {
             "dynamicWrapping": false,
@@ -210,8 +211,8 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 16340,
-                "y": 614
+                "x": 16338.666666666666,
+                "y": 612.6666666666665
             }
         },
         "untitled_lv2.tmx#GD_01": {
@@ -222,6 +223,24 @@
             "scaleInDock": 1
         },
         "untitled_lv2.tmx#platformTileset": {
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx": {
+            "scale": 0.105224609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 27835.69373549884,
+                "y": 489.4292343387474
+            }
+        },
+        "untitled_lv3.tmx#GD_01": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx#GD_lv1": {
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx#platformTileset": {
             "scaleInDock": 1
         }
     },
@@ -236,7 +255,9 @@
     "openFiles": [
         "untitled_02.tmx",
         "untitled.tmx",
-        "untitled_lv1.tmx"
+        "untitled_lv1.tmx",
+        "untitled_lv2.tmx",
+        "untitled_lv3.tmx"
     ],
     "project": "",
     "property.type": "bool",
@@ -244,15 +265,15 @@
         "untitled_02.tmx",
         "untitled.tmx",
         "untitled_lv1.tmx",
+        "untitled_lv3.tmx",
+        "untitled_lv2.tmx",
         "GD_map_01.tmx",
         "Images.tsx",
         "GD_01.tsx",
         "GD_02.tsx",
         "geometry-dash-map_01.tmx",
         "geometry-dash_tilesheet.tsj",
-        "geometry-dash_01.tmx",
-        "geometry-dash_tilesheet.tmx",
-        "geometry-dash.tsx"
+        "geometry-dash_01.tmx"
     ],
     "resizeMap.removeObjects": false,
     "textEdit.monospace": true,

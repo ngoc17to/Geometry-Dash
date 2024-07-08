@@ -8,6 +8,8 @@ import Coin from '../game-objects/Coin'
 import GravityBump from '../obstacles/GravityBump'
 import JumpRing from '../obstacles/JumpRing'
 import ScoreManager from '../manager/ScoreManager'
+import StateMachine from '../states/StateMachine'
+import PlayState from '../states/PlayState'
 
 class PlayScene extends Phaser.Scene
 {
@@ -28,6 +30,7 @@ class PlayScene extends Phaser.Scene
     private scoreManager: ScoreManager
     private desEmitter: Phaser.GameObjects.Particles.ParticleEmitter
     public levelMusic: Phaser.Sound.BaseSound
+    public stateMachine: StateMachine
 
 	constructor()
 	{
@@ -54,6 +57,11 @@ class PlayScene extends Phaser.Scene
 
         this.scoreManager.resetScore()
         this.scene.launch('OverlayScene', { scoreManager: this.scoreManager, level: this.level })
+        //============================CREATE STATES=================================
+        // this.stateMachine = new StateMachine('play', {
+        //     play: new PlayState(),
+        //     pause: new PlayState(),
+        // }, [this])
         //============================CREATE OBJECTS=================================
             //================PLAYER================
         this.player = new Player({
@@ -275,8 +283,6 @@ class PlayScene extends Phaser.Scene
         this.scoreManager.updateScore(score, this.level)
     }
 
-    
-
     update() {
         this.player.update()        
         if(this.player.state === 'ship'){
@@ -294,6 +300,7 @@ class PlayScene extends Phaser.Scene
         if(this.scoreManager.getCurrentScore() >= 98){
             this.desEmitter.start()
         }
+        // this.stateMachine.step();
     }
 }
 

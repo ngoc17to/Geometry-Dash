@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1740" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="2689">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1740" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="2702">
  <editorsettings>
   <export target="GD_level_01.json" format="json"/>
  </editorsettings>
@@ -1988,19 +1988,6 @@
   <object id="2591" name="spikes02" gid="1073741841" x="54592" y="414.295" width="208" height="74"/>
   <object id="2592" name="spikes03" gid="1073741842" x="55046" y="399.795" width="146" height="58"/>
   <object id="2593" name="spikes04" gid="19" x="55084" y="865" width="84" height="26"/>
-  <object id="2594" name="square01" gid="12" x="55620" y="156" width="60" height="60"/>
-  <object id="2595" name="square01" gid="12" x="55620" y="216" width="60" height="60"/>
-  <object id="2596" name="square01" gid="12" x="55620" y="276" width="60" height="60"/>
-  <object id="2597" name="square01" gid="12" x="55620" y="336" width="60" height="60"/>
-  <object id="2598" name="square01" gid="12" x="55620" y="396" width="60" height="60"/>
-  <object id="2599" name="square01" gid="12" x="55620" y="456" width="60" height="60"/>
-  <object id="2606" name="square01" gid="12" x="55620" y="516.061" width="60" height="60"/>
-  <object id="2607" name="square01" gid="12" x="55620" y="576.061" width="60" height="60"/>
-  <object id="2608" name="square01" gid="12" x="55620" y="636.061" width="60" height="60"/>
-  <object id="2609" name="square01" gid="12" x="55620" y="696.061" width="60" height="60"/>
-  <object id="2610" name="square01" gid="12" x="55620" y="756.061" width="60" height="60"/>
-  <object id="2611" name="square01" gid="12" x="55620" y="816.061" width="60" height="60"/>
-  <object id="2612" name="square01" gid="12" x="55620" y="864" width="60" height="60"/>
   <object id="2657" name="square01" gid="5" x="39600.3" y="697.667" width="60" height="60"/>
   <object id="2658" name="square01" gid="5" x="39660.3" y="697.667" width="60" height="60"/>
   <object id="2659" name="square01" gid="5" x="39720.3" y="697.667" width="60" height="60"/>
@@ -2051,5 +2038,20 @@
  </objectgroup>
  <objectgroup id="10" name="jumpRingLayer">
   <object id="2081" name="jumpRing" gid="37" x="1780" y="708" width="60" height="60"/>
+ </objectgroup>
+ <objectgroup id="11" name="destination">
+  <object id="2689" name="square07" gid="12" x="55619.3" y="154.667" width="60" height="60"/>
+  <object id="2690" name="square07" gid="12" x="55619.3" y="214.667" width="60" height="60"/>
+  <object id="2691" name="square07" gid="12" x="55619.3" y="274.667" width="60" height="60"/>
+  <object id="2692" name="square07" gid="12" x="55619.3" y="334.667" width="60" height="60"/>
+  <object id="2693" name="square07" gid="12" x="55619.3" y="394.667" width="60" height="60"/>
+  <object id="2694" name="square07" gid="12" x="55619.3" y="454.667" width="60" height="60"/>
+  <object id="2695" name="square07" gid="12" x="55619.3" y="514.728" width="60" height="60"/>
+  <object id="2696" name="square07" gid="12" x="55619.3" y="574.728" width="60" height="60"/>
+  <object id="2697" name="square07" gid="12" x="55619.3" y="634.728" width="60" height="60"/>
+  <object id="2698" name="square07" gid="12" x="55619.3" y="694.728" width="60" height="60"/>
+  <object id="2699" name="square07" gid="12" x="55619.3" y="754.728" width="60" height="60"/>
+  <object id="2700" name="square07" gid="12" x="55619.3" y="814.728" width="60" height="60"/>
+  <object id="2701" name="square07" gid="12" x="55619.3" y="862.667" width="60" height="60"/>
  </objectgroup>
 </map>
