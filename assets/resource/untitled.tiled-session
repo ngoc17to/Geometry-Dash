@@ -1,0 +1,282 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "untitled_lv2.tmx",
+    "automapping.whileDrawing": true,
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "#GD_01": {
+            "dynamicWrapping": false
+        },
+        "#GD_01-0": {
+            "scaleInDock": 1
+        },
+        "#GD_02": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "#GD_lv1": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "#GJ_GameSheet-hd": {
+            "dynamicWrapping": false
+        },
+        "#Images": {
+            "scaleInDock": 1
+        },
+        "#forest_assets": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "#geometry-dash_01": {
+            "dynamicWrapping": true
+        },
+        "#geometry-dash_tilesheet": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "#platform": {
+            "dynamicWrapping": true
+        },
+        "#platformTileset": {
+            "scaleInDock": 1
+        },
+        "GD_01.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "GD_02.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "GD_map_01.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1021,
+                "y": 244
+            }
+        },
+        "GD_map_01.tmx#Images": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "Images.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "geometry-dash-map_01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2512,
+                "y": -716
+            }
+        },
+        "geometry-dash-map_01.tmx#geometry-dash_tilesheet": {
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "geometry-dash.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.12,
+            "scaleInEditor": 1
+        },
+        "geometry-dash_01.tmx": {
+            "scale": 0.13522656249999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3205.7311225374087,
+                "y": 473.2797966375874
+            }
+        },
+        "geometry-dash_01.tmx#geometry-dash": {
+            "scaleInDock": 1
+        },
+        "geometry-dash_tilesheet.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1277.2727272727275,
+                "y": 575.7575757575758
+            }
+        },
+        "geometry-dash_tilesheet.tmx#geometry-dash_01": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "geometry-dash_tilesheet.tsj": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 0.125
+        },
+        "geometry-dash_tilesheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx": {
+            "scale": 0.33,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 18.181818181818187,
+                "y": 18.18181818181813
+            }
+        },
+        "untitled.tmx#GD_01": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx#platform": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "untitled.tmx#platformTileset": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled_02.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3189.333333333333,
+                "y": 692
+            }
+        },
+        "untitled_02.tmx#GD_01": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "untitled_02.tmx#platform": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "untitled_02.tmx#platformTileset": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled_lv1.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 14516,
+                "y": 399.33333333333337
+            }
+        },
+        "untitled_lv1.tmx#GD_01": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "untitled_lv1.tmx#GD_lv1": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "untitled_lv1.tmx#platformTileset": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled_lv2.tmx": {
+            "expandedObjectLayers": [
+                9,
+                10,
+                3,
+                2
+            ],
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 16338.666666666666,
+                "y": 612.6666666666665
+            }
+        },
+        "untitled_lv2.tmx#GD_01": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "untitled_lv2.tmx#GD_lv1": {
+            "scaleInDock": 1
+        },
+        "untitled_lv2.tmx#platformTileset": {
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx": {
+            "scale": 0.105224609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 27835.69373549884,
+                "y": 489.4292343387474
+            }
+        },
+        "untitled_lv3.tmx#GD_01": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx#GD_lv1": {
+            "scaleInDock": 1
+        },
+        "untitled_lv3.tmx#platformTileset": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "D:/SUN/Geometry-Dash/Geometry-Dash/assets/resource",
+    "last.imagePath": "D:/SUN/Geometry-Dash/Geometry-Dash/assets/images/GJ_GameSheet-hd",
+    "lastUsedTilesetExportFilter": "All Files (*)",
+    "map.fixedSize": true,
+    "map.height": 30,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.width": 500,
+    "openFiles": [
+        "untitled_02.tmx",
+        "untitled.tmx",
+        "untitled_lv1.tmx",
+        "untitled_lv2.tmx",
+        "untitled_lv3.tmx"
+    ],
+    "project": "",
+    "property.type": "bool",
+    "recentFiles": [
+        "untitled_02.tmx",
+        "untitled.tmx",
+        "untitled_lv1.tmx",
+        "untitled_lv3.tmx",
+        "untitled_lv2.tmx",
+        "GD_map_01.tmx",
+        "Images.tsx",
+        "GD_01.tsx",
+        "GD_02.tsx",
+        "geometry-dash-map_01.tmx",
+        "geometry-dash_tilesheet.tsj",
+        "geometry-dash_01.tmx"
+    ],
+    "resizeMap.removeObjects": false,
+    "textEdit.monospace": true,
+    "tileset.embedInMap": true,
+    "tileset.type": 0
+}
