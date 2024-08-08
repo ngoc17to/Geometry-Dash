@@ -3,11 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "untitled_lv2.tmx",
+    "activeFile": "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1,
@@ -48,6 +49,20 @@
             "dynamicWrapping": true
         },
         "#platformTileset": {
+            "scaleInDock": 1
+        },
+        "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json": {
+            "scale": 0.32151562499999997,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1592.457598289352,
+                "y": 1202.1188705836616
+            }
+        },
+        "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json#objects": {
+            "scaleInDock": 1
+        },
+        "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json#tiles": {
             "scaleInDock": 1
         },
         "GD_01.tsx": {
@@ -180,11 +195,11 @@
                 3,
                 2
             ],
-            "scale": 0.75,
+            "scale": 0.33,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 14516,
-                "y": 399.33333333333337
+                "x": 27839.39393939394,
+                "y": 481.8181818181818
             }
         },
         "untitled_lv1.tmx#GD_01": {
@@ -203,16 +218,16 @@
         },
         "untitled_lv2.tmx": {
             "expandedObjectLayers": [
-                9,
-                10,
                 3,
-                2
+                9,
+                2,
+                10
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 16338.666666666666,
-                "y": 612.6666666666665
+                "x": 27840,
+                "y": 480
             }
         },
         "untitled_lv2.tmx#GD_01": {
@@ -230,7 +245,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 27835.69373549884,
-                "y": 489.4292343387474
+                "y": 484.6774941995359
             }
         },
         "untitled_lv3.tmx#GD_01": {
@@ -257,7 +272,8 @@
         "untitled.tmx",
         "untitled_lv1.tmx",
         "untitled_lv2.tmx",
-        "untitled_lv3.tmx"
+        "untitled_lv3.tmx",
+        "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json"
     ],
     "project": "",
     "property.type": "bool",
@@ -265,15 +281,15 @@
         "untitled_02.tmx",
         "untitled.tmx",
         "untitled_lv1.tmx",
-        "untitled_lv3.tmx",
         "untitled_lv2.tmx",
+        "untitled_lv3.tmx",
+        "D:/SUN/phaser3-typescript/src/games/tank/src/assets/maps/levelMap.json",
         "GD_map_01.tmx",
         "Images.tsx",
         "GD_01.tsx",
         "GD_02.tsx",
         "geometry-dash-map_01.tmx",
-        "geometry-dash_tilesheet.tsj",
-        "geometry-dash_01.tmx"
+        "geometry-dash_tilesheet.tsj"
     ],
     "resizeMap.removeObjects": false,
     "textEdit.monospace": true,
