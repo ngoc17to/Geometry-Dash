@@ -11,7 +11,7 @@
     "preview": "serve dist",
     "util:check": "prettier --check src/scripts/**",
     "util:format": "prettier --write src/scripts/**",
-    "deploy": "npm run build && gh-pages -d dist -r https://ngoc17to.github.io/Geometry-Dash/"
+    "deploy": "npm run build && gh-pages -d dist -r https://github.com/ngoc17to/Geometry-Dash.git"
   },
   "alias": {
     "@/": "./src"
