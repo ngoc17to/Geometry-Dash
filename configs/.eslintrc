@@ -16,8 +16,9 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "semi": ["warn", "never"],
-    "linebreak-style": ["error", "unix"],
+    // "semi": ["warn", "never"],
+    "semi": 0,
+    // "linebreak-style": ["error", "unix"],
     "radix": "off",
     "no-console": "off",
     "no-unused-expressions": "off",

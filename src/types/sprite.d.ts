@@ -1,5 +1,5 @@
 export interface ISpriteConstructor {
-    scene: Phaser.Scene;
+    scene: PlayScene;
     x: number;
     y: number;
     textureKeys: string[]

@@ -1,4 +1,4 @@
-import { State } from "../types/state"
+import State from "../types/State";
 
 class StateMachine {
     private state: string | null
@@ -16,18 +16,27 @@ class StateMachine {
             state.stateMachine = this;
         }
     }
-    public step(): void {
+    
+    public update(time: number, delta: number): void {
         // On the first step, the state is null and we need to initialize the first state.
         if (this.state === null) {
             this.state = this.initialState;
-            this.possibleStates[this.state].enter(...this.stateArgs);
+            this.possibleStates[this.state].enter();
         }
         // Run the current state's execute
-        this.possibleStates[this.state].execute(...this.stateArgs);
+        this.possibleStates[this.state].execute(time, delta);
     }
+
     public transition(newState: string, ...enterArgs: any[]): void {
+        if (this.state) {
+            this.possibleStates[this.state].exit()
+        }
         this.state = newState;
-        this.possibleStates[this.state].enter(...this.stateArgs, ...enterArgs);
+        this.possibleStates[this.state].enter();
+    }
+
+    public getState(): string | null {
+        return this.state
     }
 }
 

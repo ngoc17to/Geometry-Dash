@@ -1,40 +1,49 @@
 import Phaser from 'phaser'
 import { ISpriteConstructor } from '../types/sprite'
 import ParticleManager from '../manager/ParticleManager'
+import PlayScene from '../scenes/PlayScene'
+import StateMachine from '../states/StateMachine'
+import SlideState from '../states/player-states/SlideState'
+import FlyState from '../states/player-states/FlyState'
 
 class Player extends Phaser.GameObjects.Container
 {
-    private currentScene: Phaser.Scene
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+    private stateMachine: StateMachine
+    private currentScene: PlayScene
     private textureKeys: string[]
-    private emitter: Phaser.GameObjects.Particles.ParticleEmitter
     private runSprites: Phaser.GameObjects.Sprite[];
     private flySprites: Phaser.GameObjects.Sprite[];
     private particleManager: ParticleManager;
+    private rotateTweens: Phaser.Tweens.Tween;
 
-	constructor(params: ISpriteConstructor)
+	constructor(scene: PlayScene, x: number, y: number, textureKeys: string[])
 	{
-        super(params.scene, params.x, params.y)
-        this.textureKeys = params.textureKeys
+        super(scene, x, y)
+        this.textureKeys = textureKeys
         
-        this.currentScene = params.scene
+        this.currentScene = scene
         this.currentScene.add.existing(this)
         this.currentScene.physics.add.existing(this)
-        this.setState('square')
+
+        this.stateMachine = new StateMachine('player-slide', {
+            'player-slide': new SlideState(this, scene),
+            'player-fly': new FlyState(this, scene),
+        })
 	}
 
-    public updateSprite(){        
-        if(this.state === 'square'){
+    public updateSprite(): void{        
+        if(this.stateMachine.getState() === 'player-slide'){
             this.runSprites.forEach(sprite => sprite.setVisible(true));
             this.flySprites.forEach(sprite => sprite.setVisible(false));
             this.setSize(this.runSprites[0].displayWidth, this.runSprites[0].displayHeight);
         }
-        else if(this.state === 'ship'){
+        else if(this.stateMachine.getState() === 'player-fly'){
             this.runSprites.forEach(sprite => sprite.setVisible(false));
             this.flySprites.forEach(sprite => sprite.setVisible(true));
             this.setSize(this.flySprites[3].displayWidth, this.flySprites[3].displayHeight);
         }
     }
+
     create()
     {
         // Create run sprites
@@ -55,80 +64,56 @@ class Player extends Phaser.GameObjects.Container
             this.currentScene.add.sprite(0, 0, this.textureKeys[5]).setOrigin(0.5, 0).setTint(0x00fcfc)
         ];
         this.flySprites.forEach(sprite => this.add(sprite));
-        this.updateSprite();
+
 
         this.particleManager = new ParticleManager(this.currentScene, this, 'squareParticle', 'shipParticle');
+        const body = this.body as Phaser.Physics.Arcade.Body
 
+        body.setVelocityX(600)
         this.currentScene.physics.world.enable(this)
-        
-        const body = this.body as Phaser.Physics.Arcade.Body
-        body.setVelocityX(600) 
-
-
-        this.cursors = this.currentScene.input.keyboard?.createCursorKeys()
     }
 
-    private handleKeyboard(){
-        if(!this.cursors){return}
-        if(this.state === 'square'){
-            const body = this.body as Phaser.Physics.Arcade.Body
-            if((this.cursors.space.isDown || this.cursors.up.isDown || this.currentScene.input.pointer1.isDown) && body.blocked.down){
-                body.setVelocityY(-1100)
-                body.setAccelerationY(2000)
-
-                const angle = this.angle + 180
-                let targetAngle = angle
-
-                if (angle % 90 !== 0) {
-                    targetAngle += 90 - (angle % 90)
-                }
-
-                this.currentScene.tweens.add({
-                    targets: this,
-                    angle: { from: this.angle, to: targetAngle },
-                    duration: 400,
-                })
-            }
-        }
-        else if(this.state === 'ship'){
-            const body = this.body as Phaser.Physics.Arcade.Body;
-            if((this.cursors.space.isDown || this.cursors.up.isDown || this.currentScene.input.pointer1.isDown)){
-                body.setVelocityY(-400)
-                this.scene.tweens.add({
-                    targets: this,
-                    props: { angle: -30 },
-                    duration: 150,
-                });
-            }
-            else if((this.cursors.space.isUp || this.cursors.up.isUp || !this.currentScene.input.pointer1.isDown)){
-                this.scene.tweens.add({
-                    targets: this,
-                    props: { angle: body.blocked.down ? 0 : 30 },
-                    duration: 300,
-                });
-            }
-        }
+    update(time: number, delta: number): void {
+        this.stateMachine.update(time, delta)
     }
 
-    update() {
-        this.handleKeyboard()
+    public rotatePlayer(): void {
         const body = this.body as Phaser.Physics.Arcade.Body
-        if(this.state === 'square'){
-            if (body.blocked.down) {
-                this.particleManager.startSliding();
-                this.particleManager.update();
-            } else {
-                this.particleManager.stopSliding();
-            }
+        const angle = this.angle + 180
+        let targetAngle = angle
+
+        if (angle % 90 !== 0) {
+            targetAngle += 90 - (angle % 90)
         }
-        else{
-            if (this.cursors?.space.isDown || this.cursors?.up.isDown) {
-                this.particleManager.startFlying();
-                this.particleManager.update();
-            } else {
-                this.particleManager.stopFlying();
-            }
-        }
+
+        console.log(this.angle, targetAngle)
+        this.rotateTweens = this.scene.tweens.add({
+            targets: this,
+            angle: { from: this.angle, to: targetAngle },
+            duration: 400,
+        })
+    }
+    
+    public getStateMachine(): StateMachine{
+        return this.stateMachine
+    }
+
+    public getState(): string | null{
+        return this.stateMachine.getState()
+    }
+
+    public getParticleManager(): ParticleManager{
+        return this.particleManager
+    }
+
+    public pause(): void {    
+        this.rotateTweens.pause()
+        this.particleManager.pause();
+    }
+    
+    public resume(): void {
+        this.rotateTweens.resume()
+        this.particleManager.resume();
     }
 }
 

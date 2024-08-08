@@ -94,10 +94,15 @@ class LoadingScene extends Phaser.Scene {
         this.load.image('pauseBtn', 'assets/images/GJ_GameSheet03-hd/GJ_pauseEditorBtn_001.png')
         this.load.image('replayBtn', 'assets/images/GJ_GameSheet03-hd/GJ_replayBtn_001.png')
         this.load.image('menuBtn', 'assets/images/GJ_GameSheet03-hd/GJ_menuBtn_001.png')
-
+        this.load.image('newBest', 'assets/images/GJ_GameSheet03-hd/GJ_newBest_001.png')
+        this.load.image('levelComplete', 'assets/images/GJ_GameSheet03-hd/GJ_levelComplete_001.png')
+        
         this.load.audio('level1bmg', 'assets/sounds/StereoMadness.mp3');
         this.load.audio('collectCoin', 'assets/sounds/gold02.ogg');
         this.load.audio('playSound', 'assets/sounds/playSound_01.ogg');
+        this.load.audio('menuSound', 'assets/sounds/menuLoop.mp3');
+        this.load.audio('quitSound', 'assets/sounds/quitSound_01.ogg');
+        this.load.audio('rewardSound', 'assets/sounds/reward01.ogg');
 
         this.load.bitmapFont('bigFont', 'assets/images/bigFont-hd.png', 'assets/fonts/bigFont-hd.fnt');
         this.load.on('filecomplete', (fileKey: string, type: string, file: any) => {

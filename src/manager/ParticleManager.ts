@@ -3,6 +3,8 @@ class ParticleManager {
     private player: Phaser.GameObjects.Container
     private squareEmitter: Phaser.GameObjects.Particles.ParticleEmitter
     private shipEmitter: Phaser.GameObjects.Particles.ParticleEmitter
+    private squareEmitterPaused: boolean = false;
+    private shipEmitterPaused: boolean = false;
 
     constructor(scene: Phaser.Scene, player: Phaser.GameObjects.Container, squareParticleKey: string, shipParticleKey: string) {
         this.scene = scene
@@ -62,6 +64,34 @@ class ParticleManager {
 
     public stopFlying() {
         this.shipEmitter.stop()
+    }
+
+    public pause(): void {
+        // Pause square emitter
+        if (!this.squareEmitterPaused) {
+            this.squareEmitter.pause();
+            this.squareEmitterPaused = true;
+        }
+    
+        // Pause ship emitter
+        if (!this.shipEmitterPaused) {
+            this.shipEmitter.pause();
+            this.shipEmitterPaused = true;
+        }
+    }
+    
+    public resume(): void {
+        // Resume square emitter
+        if (this.squareEmitterPaused) {
+            this.squareEmitter.resume();
+            this.squareEmitterPaused = false;
+        }
+    
+        // Resume ship emitter
+        if (this.shipEmitterPaused) {
+            this.shipEmitter.resume();
+            this.shipEmitterPaused = false;
+        }
     }
 }
 

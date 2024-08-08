@@ -1,42 +1,59 @@
 import Phaser from 'phaser'
-import Square from '../obstacles/Square'
-import Platform from '../game-objects/Platform'
+import Square from '../game-objects/Square'
 import Player from '../game-objects/Player'
-import Spike from '../obstacles/Spike'
-import Portal from '../obstacles/Portal'
+import Spike from '../game-objects/Spike'
+import Portal from '../game-objects/Portal'
 import Coin from '../game-objects/Coin'
-import GravityBump from '../obstacles/GravityBump'
-import JumpRing from '../obstacles/JumpRing'
+import GravityBump from '../game-objects/GravityBump'
+import JumpRing from '../game-objects/JumpRing'
 import ScoreManager from '../manager/ScoreManager'
 import StateMachine from '../states/StateMachine'
-import PlayState from '../states/PlayState'
+import PauseState from '../states/game-states/PauseState'
+import EndState from '../states/game-states/EndState'
+import Button from '../ui/Button'
+import Transition from '../ui/Transition'
+import PauseMenu from '../ui/PauseMenu'
+import StartState from '../states/game-states/StartState'
+import PlayState from '../states/game-states/PlayState'
+import NewBestScreen from '../ui/NewBestScreen'
 
 class PlayScene extends Phaser.Scene
 {
+    public level: number;
+    private map: Phaser.Tilemaps.Tilemap
+
     private player!: Player
-    private level: number;
-    private platforms!: Platform
     private squareObstacles: Phaser.Physics.Arcade.Group
     private spikeObstacles: Phaser.Physics.Arcade.Group
     private coins: Phaser.Physics.Arcade.Group
     private bumps: Phaser.Physics.Arcade.Group
     private jumpRings: Phaser.Physics.Arcade.Group
     private portals: Phaser.Physics.Arcade.Group
+
     private visitedPortals: Portal[] = []
     private visitedCoins: Coin[] = []
-    private map: Phaser.Tilemaps.Tilemap
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+
     private initialCameraZoom: number
-    private scoreManager: ScoreManager
-    private desEmitter: Phaser.GameObjects.Particles.ParticleEmitter
-    public levelMusic: Phaser.Sound.BaseSound
+    public scoreManager: ScoreManager
     public stateMachine: StateMachine
+
+    public desEmitter: Phaser.GameObjects.Particles.ParticleEmitter
+
+    public levelMusic: Phaser.Sound.BaseSound
+    public playSound: Phaser.Sound.BaseSound
+    public menuSound: Phaser.Sound.BaseSound
+    public rewardSound: Phaser.Sound.BaseSound
+
+    public pauseButton: Button
+    public transition: Transition
+    public scoreText: Phaser.GameObjects.Text
+    public pauseMenu: PauseMenu
+    public newBestScreen: NewBestScreen
 
 	constructor()
 	{
 		super({ key: "PlayScene" })
         this.scoreManager = new ScoreManager();
-
 	}
 
     init(data: any) {
@@ -45,36 +62,19 @@ class PlayScene extends Phaser.Scene
 
     create()
     {        
-        this.physics.world.TILE_BIAS = 32
-        this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight)
-        
-        // const playSound = this.sound.add('playSound');
-        // playSound.play();
-
-        // Create and play background music
-        this.levelMusic = this.sound.add('level1bmg', { loop: true });
-        this.levelMusic.play();
-
-        this.scoreManager.resetScore()
-        this.scene.launch('OverlayScene', { scoreManager: this.scoreManager, level: this.level })
-        //============================CREATE STATES=================================
-        // this.stateMachine = new StateMachine('play', {
-        //     play: new PlayState(),
-        //     pause: new PlayState(),
-        // }, [this])
+        //============================AUDIO=================================
+        this.levelMusic = this.sound.add('level1bmg', { loop: true })
+        this.playSound = this.sound.add('playSound')
+        this.rewardSound = this.sound.add('rewardSound')
+        this.menuSound = this.sound.add('menuSound', { loop: true })
         //============================CREATE OBJECTS=================================
             //================PLAYER================
-        this.player = new Player({
-            scene: this,
-            x: 0,
-            y: this.sys.canvas.height,
-            textureKeys: ['player1', 'player2', 'player3', 'ship1', 'ship2', 'ship3'],
-        })
+        this.player = new Player(this, 0, this.sys.canvas.height, ['player1', 'player2', 'player3', 'ship1', 'ship2', 'ship3'])
         this.player.create()
 
         //============================CREATE OBSTACLES=================================
         this.map = this.make.tilemap({ key: `level${this.level}` })
-        //================PLATFORM================
+            //================PLATFORM================
         const platformTileset = this.map.addTilesetImage('platformTileset', 'platform')
         const platformLayer = this.map.createLayer('platform', platformTileset!, 0, 0)
         const floorLayer = this.map.createLayer('floor', platformTileset!, 0, 0)
@@ -85,17 +85,16 @@ class PlayScene extends Phaser.Scene
         platformLayer!.setTint(0x0410af)
         floorLayer!.setTint(0x0410af)
 
-        //================SQUARE================
-        for (let i = 1; i < 9; i++) {
-			const num = i.toString().padStart(2, '0')
-			this.map.addTilesetImage('GD_lv1', 'square' + num)
-        }
-        this.map.addTilesetImage('GD_lv1', 'plank01')
+            //================SQUARE================
         const squareLayer = this.map.getObjectLayer('squareLayer')
-        this.squareObstacles = this.physics.add.group()
+        this.squareObstacles = this.physics.add.group({ classType: Square })
         squareLayer?.objects.forEach((obj) => {
-            const square = new Square(this, (obj.x as number) + (obj.width as number)/2, (obj.y as number) - (obj.height as number)/2, obj.name, obj.flippedHorizontal, obj.flippedVertical)
-            this.physics.add.collider(this.player, square, square.handleCollisionWithPlayer.bind(this) as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this  )
+            const square = new Square(
+                this, (obj.x as number) + (obj.width as number)/2,
+                (obj.y as number) - (obj.height as number)/2,
+                obj.name,
+                obj.flippedHorizontal,
+                obj.flippedVertical)
             this.squareObstacles.add(square)
         })
 
@@ -105,21 +104,17 @@ class PlayScene extends Phaser.Scene
             body.setImmovable(true)
             return true
         })
-        
-
-        //================SPIKE================ 
-        for (let i = 1; i < 5; i++) {
-			const num = i.toString().padStart(2, '0') 
-			this.map.addTilesetImage('GD_lv1', 'spike' + num)
-			this.map.addTilesetImage('GD_lv1', 'spikes' + num)
-        }
-
+            //================SPIKE================ 
         const spikeLayer = this.map.getObjectLayer('spikeLayer')
-        this.spikeObstacles = this.physics.add.group()
+        this.spikeObstacles = this.physics.add.group({ classType: Spike })
 
         spikeLayer?.objects.forEach((obj) => {
-            const spike = new Spike(this, (obj.x as number) + (obj.width as number)/2, (obj.y as number) - (obj.height as number)/2, obj.name, obj.flippedVertical)
-            this.physics.add.collider(this.player, spike, spike.handleCollisionWithPlayer.bind(this) as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this  )
+            const spike = new Spike(
+                this,
+                (obj.x as number) + (obj.width as number)/2,
+                (obj.y as number) - (obj.height as number)/2,
+                obj.name,
+                obj.flippedVertical)
             this.spikeObstacles.add(spike)
         })
 
@@ -130,16 +125,15 @@ class PlayScene extends Phaser.Scene
             return true
         })
         //================COIN================ 
-        this.map.addTilesetImage('GD_lv1', 'coin01')
-
         const coinLayer = this.map.getObjectLayer('coinLayer')
-        this.coins = this.physics.add.group({
-            classType: Coin,
-            runChildUpdate: true
-        });
+        this.coins = this.physics.add.group({ classType: Coin })
 
         coinLayer?.objects.forEach((obj) => {
-            const coin = new Coin(this, (obj.x as number) + (obj.width as number)/2, (obj.y as number) - (obj.height as number)/2, obj.name)
+            const coin = new Coin(
+                this,
+                (obj.x as number) + (obj.width as number)/2,
+                (obj.y as number) - (obj.height as number)/2, 
+                obj.name)
             this.coins.add(coin)
         })
 
@@ -149,16 +143,17 @@ class PlayScene extends Phaser.Scene
             body.setImmovable(true)
             return true
         })
-        //================BUMP================ 
-        this.map.addTilesetImage('GD_lv1', 'bump')
+            //================BUMP================ 
         const bumpLayer = this.map.getObjectLayer('bumpLayer')
-        this.bumps = this.physics.add.group({
-            classType: GravityBump,
-            runChildUpdate: true
-        });
+        this.bumps = this.physics.add.group({ classType: GravityBump });
 
         bumpLayer?.objects.forEach((obj) => {
-            const bump = new GravityBump(this, (obj.x as number) + (obj.width as number)/2, (obj.y as number) - (obj.height as number)/2, obj.name, 1500)
+            const bump = new GravityBump(
+                this,
+                (obj.x as number) + (obj.width as number)/2,
+                (obj.y as number) - (obj.height as number)/2, 
+                obj.name,
+                1500)
             this.bumps.add(bump)
         })
 
@@ -168,16 +163,16 @@ class PlayScene extends Phaser.Scene
             body.setImmovable(true)
             return true
         })
-        //================JUMP RING================ 
-        this.map.addTilesetImage('GD_lv1', 'jumpRing')
+            //================JUMP RING================ 
         const jumpRingLayer = this.map.getObjectLayer('jumpRingLayer')
-        this.jumpRings = this.physics.add.group({
-            classType: JumpRing,
-            runChildUpdate: true
-        });
+        this.jumpRings = this.physics.add.group({ classType: JumpRing });
 
         jumpRingLayer?.objects.forEach((obj) => {
-            const jumpRing = new JumpRing(this, (obj.x as number) + (obj.width as number)/2, (obj.y as number) - (obj.height as number)/2, obj.name)
+            const jumpRing = new JumpRing(
+                this,
+                (obj.x as number) + (obj.width as number)/2,
+                (obj.y as number) - (obj.height as number)/2,
+                obj.name)
             this.jumpRings.add(jumpRing)
         })
 
@@ -187,15 +182,9 @@ class PlayScene extends Phaser.Scene
             body.setImmovable(true)
             return true
         })
-        //================PORTAL================
-        for (let i = 1; i < 5; i++) {
-			const num = i.toString().padStart(2, '0') 
-			this.map.addTilesetImage('GD_lv1', 'portal' + num + 'f')
-			this.map.addTilesetImage('GD_lv1', 'portal' + num + 'b')
-        }
-
+            //================PORTAL================
         const portalLayer = this.map.getObjectLayer('portalLayer')
-        this.portals = this.physics.add.group()
+        this.portals = this.physics.add.group({ classType: Portal })
 
         const portalObjects = portalLayer?.objects || []
 
@@ -218,33 +207,42 @@ class PlayScene extends Phaser.Scene
             body.setImmovable(true)
             return true
         })
+
     //======================SETTING CAMERA=========================
+        const { width, height } = this.cameras.main
         this.initialCameraZoom = this.cameras.main.zoom;
         this.cameras.main.startFollow(this.player, false, 1, 1, 0, 0)
         this.cameras.main.setFollowOffset(-this.sys.canvas.width / 3, 0)
         this.cameras.main.setLerp(0.1, 0.2) 
-        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)        
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels) 
+
     //======================COLLISION=========================
-        this.physics.add.collider(this.player, this.platforms)
         this.physics.add.overlap(this.player, this.portals, this.changeState as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this)
-        this.physics.add.overlap(this.player, this.coins, this.collectCoin as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this);
-        this.physics.add.collider(this.player, this.bumps, this.hitGravityBump as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this);
-        this.physics.add.overlap(this.player, this.jumpRings, this.onJumpRing as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.player, this.coins, this.collectCoin as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback, undefined, this)
 
-    //========================================================
-        this.cursors = this.input.keyboard?.createCursorKeys()
+    //============================CREATE STATES=================================
+        // this.stateMachine = new StateMachine('play', {
+        //     play: new PlayState(),
+        //     resume: new ResumeState(),
+        //     pause: new PauseState(),
+        //     level: new LevelSelectState(),
+        //     end: new EndState(),
+        // }, [this])
 
-
-        // Tạo Particle Manager và Emitter
-        this.desEmitter = this.add.particles(this.map.widthInPixels, this.cameras.main.height/2, 'particle', {
-            color: [ 0xc3e98d ],
-            lifespan: 3000,
-            speed: { min: 100, max: 300 },
-            angle: { min: 90, max: 270 },
-            quantity: 1,
+        this.pauseMenu = new PauseMenu(this, width / 2, height / 2)
+        this.newBestScreen = new NewBestScreen(this, width / 2, height / 4)
+        this.newBestScreen.setVisible(false)
+        this.pauseMenu.setVisible(false)
+        // this.gameOverScreen = new GameOverScreen(this, width / 2, height / 2)
+        // this.gameOverScreen.setVisible(false)
+        this.transition = new Transition(this)
+        this.stateMachine = new StateMachine('start', {
+            start: new StartState(this),
+            play: new PlayState(this),
+            pause: new PauseState(this),
+            end: new EndState(this),
         })
-        this.desEmitter.stop()
-        
+
     }
 
     private collectCoin(player: Player, coin: Coin): void {
@@ -256,51 +254,53 @@ class PlayScene extends Phaser.Scene
         }
     }
 
-    private hitGravityBump(player: Player, bump: GravityBump): void {
-        bump.applyBoost(player);
-    }
-
-    private onJumpRing(player: Player, jumpRing: JumpRing): void {
-        jumpRing.onJump(player)
-    }
-
     public changeState(player: Player, portal: Portal): void {
         const portalIndex = this.visitedPortals.indexOf(portal)
         if (portalIndex === -1) {
-            if(player.state == 'square'){
-                player.setState('ship')
+            if(player.getState() == 'player-slide'){
+                player.getStateMachine().transition('player-fly')
+                
+                const { height } = this.scale;
+                const mapHeight = this.map.heightInPixels;
+                const zoomLevel = height / mapHeight;
+                
+                this.tweens.addCounter({
+                    from: this.cameras.main.zoom,
+                    to: zoomLevel,
+                    duration: 500,
+                    onUpdate: (t) => {
+                        this.cameras.main.setZoom(t.getValue())
+                    }
+                })
             }
-            else player.setState('square') 
-            player.updateSprite()
+            else {
+                player.getStateMachine().transition('player-slide')
+                this.tweens.addCounter({
+                    from: this.cameras.main.zoom,
+                    to: this.initialCameraZoom,
+                    duration: 500,
+                    onUpdate: (t) => {
+                        this.cameras.main.setZoom(t.getValue())
+                    }
+                })
+            }
 
             this.visitedPortals.push(portal)
         }
     }
 
-    private updateScore(): void {
+    public updateScore(): void {
         const percentageProgress = Math.min(this.player.x / this.map.widthInPixels, 1)
         const score = Math.floor(percentageProgress * 100)
         this.scoreManager.updateScore(score, this.level)
     }
 
-    update() {
-        this.player.update()        
-        if(this.player.state === 'ship'){
-            const { height } = this.scale;
-            const mapHeight = this.map.heightInPixels;
-            const zoomLevel = height / mapHeight;
+    public getPlayer(): Player {
+        return this.player
+    }
 
-            this.cameras.main.setZoom(zoomLevel);
-        }
-        else{
-            this.cameras.main.setZoom(this.initialCameraZoom)
-            this.cameras.main.scrollY = this.player.y - 150
-        }
-        this.updateScore();
-        if(this.scoreManager.getCurrentScore() >= 98){
-            this.desEmitter.start()
-        }
-        // this.stateMachine.step();
+    update(time: number, delta: number): void {
+        this.stateMachine.update(time, delta)
     }
 }
 

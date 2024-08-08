@@ -10,7 +10,7 @@ class Coin extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         scene.anims.create({
-            key: 'spin',
+            key: 'coin-spin',
             frames: [
                 { key: 'coin01' },
                 { key: 'coin02' },
@@ -21,7 +21,7 @@ class Coin extends Phaser.Physics.Arcade.Sprite {
             repeat: -1
         })
 
-        this.play('spin')
+        this.play('coin-spin')
     }
 
     public collect(): void {

@@ -28,13 +28,16 @@ class ScoreManager {
 
     public updateScore(score: number, levelKey: number): void {
         this.currentScore = score
-        const currentHighScore = this.getHighScore(levelKey);
+    }
+    public updateHighScore(levelKey: number): boolean {
+        const currentHighScore = this.getHighScore(levelKey)
         if (this.currentScore > currentHighScore) {
             this.highScores[levelKey] = this.currentScore;
-            localStorage.setItem('highScores', JSON.stringify(this.highScores));
+            localStorage.setItem('highScores', JSON.stringify(this.highScores))
+            return true //return true if update highest score
         }
+        return false
     }
-
     public updateCoin(): void {
         this.currentCoin++
     }
