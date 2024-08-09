@@ -20,6 +20,7 @@ class PauseState extends State {
         this.scene.physics.world.pause();
         this.scene.transition.fadeIn(this.scene.pauseMenu);
         this.scene.scene.pause('OverlayScene');
+        this.scene.newBestScreen.setVisible(false)
         // scene.scene.launch('PauseScene', {scene: scene })
     }
 

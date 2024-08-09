@@ -7,6 +7,7 @@ class PauseMenu extends Phaser.GameObjects.Container {
     private highestScore: number;
     private background: Phaser.GameObjects.Graphics;
     private currentScene: PlayScene;
+    private highestScoreText: Phaser.GameObjects.Text;
 
     constructor(scene: PlayScene, x: number, y: number) {
         super(scene, x, y);
@@ -53,7 +54,7 @@ class PauseMenu extends Phaser.GameObjects.Container {
         });
         levelText.setOrigin(0.5);
 
-        const highestScoreText = this.scene.add.text(
+        this.highestScoreText = this.scene.add.text(
             progressBarX + progressBarWidth / 2,
             progressBarY + progressBarHeight / 2,
             `${this.highestScore} %`,
@@ -63,9 +64,30 @@ class PauseMenu extends Phaser.GameObjects.Container {
                 align: 'center'
             }
         );
-        highestScoreText.setOrigin(0.5);
+        this.highestScoreText.setOrigin(0.5);
 
-        this.add([this.progressBar, levelText, highestScoreText]);
+        this.add([this.progressBar, levelText, this.highestScoreText]);
+    }
+
+    public updateBar(): void {
+ 
+        this.highestScore = this.currentScene.scoreManager.getHighScore(this.currentScene.level);
+        const { width } = this.scene.scale;
+        const progressBarWidth = width / 3;
+        const progressBarHeight = 20;
+        const progressBarX = - (progressBarWidth / 2);
+        const progressBarY = -this.scene.scale.height / 6;
+    
+        this.progressBar.clear();
+    
+        this.progressBar.fillStyle(0x222222, 0.8);
+        this.progressBar.fillRoundedRect(progressBarX, progressBarY, progressBarWidth, progressBarHeight, 10);
+    
+        const fillWidth = (this.highestScore / 100) * progressBarWidth;
+        this.progressBar.fillStyle(0x00ff00, 1);
+        this.progressBar.fillRoundedRect(progressBarX, progressBarY, fillWidth, progressBarHeight, 10);
+    
+        this.highestScoreText.setText(`${this.highestScore} %`);
     }
 
     private createButtons(): void {

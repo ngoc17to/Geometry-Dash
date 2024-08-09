@@ -23,6 +23,7 @@ class EndState extends State {
             this.elapsedTime = 0;
             this.isNewBest = true
             this.scene.newBestScreen.updateScoreText();
+            this.scene.pauseMenu.updateBar()
             this.scene.rewardSound.play()
             this.scene.transition.fadeIn(this.scene.newBestScreen);   
         }
